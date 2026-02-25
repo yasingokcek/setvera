@@ -5,8 +5,8 @@ const App: React.FC = () => {
     return (
           <div className="min-h-screen">
                 <SetveraChat />
-          </div>div>
+          </div>
         );
 };
 
-export default App;</div>
+export default App;
