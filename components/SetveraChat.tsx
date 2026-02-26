@@ -7,22 +7,23 @@ type DashTab = 'chat' | 'reservations' | 'customers' | 'settings';
 type Module = 'restaurant' | 'beauty' | 'clinic' | 'other';
 
 interface Session {
+  userId: string;
   businessName: string;
-  module: Module;
+  sector: string;
   email: string;
-  plan: 'demo' | 'starter' | 'pro';
+  token: string;
 }
 
 interface Reservation {
   id: string;
-  customer: string;
+  customerName: string;
   phone: string;
   date: string;
   time: string;
   guests: number;
-  area: string;
+  service: string;
   status: 'confirmed' | 'pending' | 'cancelled';
-  note: string;
+  notes?: string;
 }
 
 interface Customer {
@@ -32,22 +33,23 @@ interface Customer {
   email: string;
   totalVisits: number;
   lastVisit: string;
+  rating: number;
 }
 
 const DEMO_RESERVATIONS: Reservation[] = [
-  { id: '1', customer: 'Ahmet Yilmaz', phone: '0532 111 2233', date: '2026-02-26', time: '19:00', guests: 4, area: 'Teras', status: 'confirmed', note: 'Dogum gunu' },
-  { id: '2', customer: 'Fatma Kaya', phone: '0543 222 3344', date: '2026-02-26', time: '20:30', guests: 2, area: 'Ic mekan', status: 'confirmed', note: '' },
-  { id: '3', customer: 'Mehmet Demir', phone: '0555 333 4455', date: '2026-02-27', time: '13:00', guests: 6, area: 'VIP', status: 'pending', note: 'Is yemegi' },
-  { id: '4', customer: 'Ayse Sahin', phone: '0507 444 5566', date: '2026-02-27', time: '21:00', guests: 8, area: 'Bahce', status: 'pending', note: 'Evlilik teklifi surpriz' },
-  { id: '5', customer: 'Can Ozturk', phone: '0541 555 6677', date: '2026-02-28', time: '12:30', guests: 3, area: 'Cam kenari', status: 'cancelled', note: '' },
+  { id: '1', customerName: 'Ahmet Yilmaz', phone: '0532 111 2233', date: '2026-02-26', time: '19:00', guests: 4, service: 'Aksam Yemegi', status: 'confirmed', notes: 'Dogum gunu' },
+  { id: '2', customerName: 'Fatma Kaya', phone: '0543 222 3344', date: '2026-02-26', time: '20:30', guests: 2, service: 'Ozel Menu', status: 'confirmed' },
+  { id: '3', customerName: 'Mehmet Demir', phone: '0555 333 4455', date: '2026-02-27', time: '13:00', guests: 6, service: 'Is Yemegi', status: 'pending', notes: 'VIP masa' },
+  { id: '4', customerName: 'Ayse Sahin', phone: '0507 444 5566', date: '2026-02-27', time: '21:00', guests: 8, service: 'Bahce Alani', status: 'pending', notes: 'Evlilik teklifi surprizi' },
+  { id: '5', customerName: 'Can Ozturk', phone: '0541 555 6677', date: '2026-02-28', time: '12:30', guests: 3, service: 'Ogle Yemegi', status: 'cancelled' },
 ];
 
 const DEMO_CUSTOMERS: Customer[] = [
-  { id: '1', name: 'Ahmet Yilmaz', phone: '0532 111 2233', email: 'ahmet@email.com', totalVisits: 8, lastVisit: '2026-02-26' },
-  { id: '2', name: 'Fatma Kaya', phone: '0543 222 3344', email: 'fatma@email.com', totalVisits: 5, lastVisit: '2026-02-26' },
-  { id: '3', name: 'Mehmet Demir', phone: '0555 333 4455', email: 'mehmet@email.com', totalVisits: 12, lastVisit: '2026-02-20' },
-  { id: '4', name: 'Ayse Sahin', phone: '0507 444 5566', email: 'ayse@email.com', totalVisits: 3, lastVisit: '2026-02-15' },
-  { id: '5', name: 'Can Ozturk', phone: '0541 555 6677', email: 'can@email.com', totalVisits: 1, lastVisit: '2026-02-10' },
+  { id: '1', name: 'Ahmet Yilmaz', phone: '0532 111 2233', email: 'ahmet@email.com', totalVisits: 8, lastVisit: '2026-02-26', rating: 5 },
+  { id: '2', name: 'Fatma Kaya', phone: '0543 222 3344', email: 'fatma@email.com', totalVisits: 5, lastVisit: '2026-02-26', rating: 4 },
+  { id: '3', name: 'Mehmet Demir', phone: '0555 333 4455', email: 'mehmet@email.com', totalVisits: 12, lastVisit: '2026-02-20', rating: 5 },
+  { id: '4', name: 'Ayse Sahin', phone: '0507 444 5566', email: 'ayse@email.com', totalVisits: 3, lastVisit: '2026-02-15', rating: 3 },
+  { id: '5', name: 'Can Ozturk', phone: '0541 555 6677', email: 'can@email.com', totalVisits: 1, lastVisit: '2026-02-10', rating: 4 },
 ];
 
 /* ===== LANDING PAGE ===== */
