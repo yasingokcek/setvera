@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatMessage } from '../types';
-import { sendMessage } from '../services/setveraService';
 const e = React.createElement;
 
 type Page = 'landing' | 'auth' | 'dashboard';
@@ -471,15 +469,14 @@ const DashboardSection: React.FC<{ session: Session; onLogout: () => void }> = (
     setInput('');
     setLoading(true);
     try {
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '');
-      const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-      const systemPrompt = 'Sen Setvera yapay zeka asistanısın. ' + session.businessName + ' adlı ' + session.sector + ' işletmesine yardım ediyorsun. Türkçe yanıt ver. Rezervasyon yönetimi, müşteri ilişkileri ve işletme operasyonları konularında uzmanlaşmışsın.';
-      const result = await model.generateContent(systemPrompt + '\n\nKullanıcı: ' + currentInput);
-      const response = result.response.text();
-      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: response, timestamp: new Date() }]);
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+      const systemPrompt = 'Sen Setvera yapay zeka asistanisın. ' + session.businessName + ' adlı ' + session.sector + ' işletmesine yardım ediyorsun. Türkçe yanıt ver. Rezervasyon yönetimi, müşteri ilişkileri ve işletme operasyonları konularında uzmanlaşmışsın.';
+      const result = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: systemPrompt + ' Kullanici: ' + currentInput });
+      const responseText = result.text || 'Yanıt alınamadı.';
+      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: responseText, timestamp: new Date() }]);
     } catch {
-      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: 'Üzgünüm, şu an AI servisine bağlanamıyorum. Lütfen daha sonra tekrar deneyin ya da doğrudan iletişime geçin.', timestamp: new Date() }]);
+      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: 'Üzgünüm, şu an AI servisine bağlanamıyorum. Rezervasyonlar veya müşterileriniz hakkında sorularınızı yanıtlamak için lütfen daha sonra tekrar deneyin.', timestamp: new Date() }]);
     }
     setLoading(false);
   };
